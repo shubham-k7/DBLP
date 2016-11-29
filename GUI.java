@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -13,7 +14,7 @@ import javax.swing.text.PlainDocument;
 public class GUI
 {
 		private JFrame mainFrame;
-	GUI()
+		GUI()
 		{
 			mainFrame = new JFrame();
 			mainFrame.setSize(1600,900);
@@ -49,7 +50,7 @@ public class GUI
 	private JTable table;
 
 
-
+	DefaultTableModel model;
 	private int rowCount= 20;
 	private JPanel bodyPanel()
 	{
@@ -69,11 +70,12 @@ public class GUI
 
 		queryPanel.setLayout(new GridLayout(10,1));
 		queryPanelSet(queryPanel);
+
 //		resultPanel.setLayout(new GridLayout(,1));
 		resultPanelSet(resultPanel);
 
 		bPanel.add(queryPanel,BorderLayout.WEST);
-		bPanel.add(resultPanel  ,BorderLayout.EAST);
+		bPanel.add(resultPanel,BorderLayout.EAST);
 
 		return bPanel;
 	}
@@ -90,7 +92,7 @@ public class GUI
 		model.setColumnIdentifiers(headings);
 		table = new JTable(model);
 		table.setVisible(true);
-		table.setPreferredSize(new Dimension(1000,600));
+		table.setPreferredSize(new Dimension(1080,500));
 		table.setPreferredScrollableViewportSize(table.getPreferredSize());
 		table.setFillsViewportHeight(true);
 		JScrollPane sp = new JScrollPane(table);
@@ -101,7 +103,6 @@ public class GUI
 		next.setPreferredSize(new Dimension(100,30));
 		next.setFont(new Font("Comic Sans MS",Font.BOLD,15));
 		next.setVisible(true);
-
 		next.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -252,6 +253,9 @@ public class GUI
 				if(formatCorrect)
 				{
 					JOptionPane.showMessageDialog(null,"String is correct");
+					DefaultTableModel model = (DefaultTableModel) results.getModel();
+					model.addRow(new Object[]{"Yolo", "fdsafdsa", "fdsafdsa", "fdsa","fdsa","fdsa","fdsa","htrhgr"});
+					table = new JTable(model);
 				}
 			}
 		});
