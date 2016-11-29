@@ -74,7 +74,9 @@ public class Publications {
 	public String ret_year() {
 		return year;
 	}
-
+	/** 
+     *  The function converts the output into a format supported by JTable. (Object [8])
+     */
 	public String[] gui_output_format(String search_parameter, int search_option, int index) {
 		String[] output = {"0","-","-","-","-","-","-","-"};
 		index=index+1;

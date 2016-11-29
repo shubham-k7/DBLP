@@ -3,7 +3,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class Sorting_output {
-	
+
 	public static void sort_by_date( ArrayList<Publications>Search_result)
 	{
 		
@@ -18,7 +18,7 @@ public class Sorting_output {
 		    });
 
 	}
-	
+
 	public static void sort_by_relevance( ArrayList<Publications>Search_result)
 	{
 		 Collections.sort(Search_result, new Comparator<Publications>(){

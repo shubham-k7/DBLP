@@ -14,7 +14,6 @@ public class EntityResolver {
 	private SAXParser parser;
 	private DefaultHandler handler;
 	private File dblp_file;
-
 	public EntityResolver() {
 
 		try {
@@ -33,7 +32,7 @@ public class EntityResolver {
 			e.printStackTrace();
 		}
 	}
-
+	
 	private class EntityHandler extends DefaultHandler {
 
 		boolean author;

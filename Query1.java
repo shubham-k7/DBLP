@@ -15,13 +15,13 @@ import org.xml.sax.helpers.DefaultHandler;
 public class Query1 {
 	String authorName;
 
-	SAXParser parser; 	/*!< Detailed description after the member */
-	DefaultHandler handler; /*!< Detailed description after the member */
+	SAXParser parser; 	/*!< Currently not used but can be used for parsing at multiple functions in the same class */
+	DefaultHandler handler; /*!< Currently not used but can be used for parsing at multiple functions in the same class */
 	File dblp_file;
 
-	String search_Parameter;
-	int search_Option;
-	ArrayList<Publications> Search_result; /*!< Detailed description after the member */
+	String search_Parameter;/*!<Initialize using function parsing */
+	int search_Option;/*!<Initialize using function parsing store */
+	ArrayList<Publications> Search_result; /*!< ArrayList of type Publications used for storing all the search Result */
 
 	public ArrayList<Publications> ret_searchresult() {
 		return Search_result;
@@ -35,17 +35,7 @@ public class Query1 {
 	public Publications ret_Search_result(int i) {
 		return Search_result.get(i);
 	}
-
-	public Query1() {
-
-	}
-	/**
-     * Performs a linear regression on the data points {@code (y[i], x[i])}.
-     *
-     * @param  x the values of the predictor variable
-     * @param  y the corresponding values of the response variable
-     * @throws IllegalArgumentException if the lengths of the two arrays are not equal
-     */
+	
 	public void parsing(String search_parameter, int search_option) {
 		Search_result = new ArrayList<Publications>();
 		search_Parameter = search_parameter;
@@ -70,16 +60,6 @@ public class Query1 {
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static void main(String[] args) {
-		new EntityResolver();
-//		Query1 qc = new Query1();
-//		qc.parsing("Crime Technology", 1);
-//		Query1.display_according_to_option(3, qc.ret_searchresult());
-		Query2.execute();
-		Query2.dispay_result(500);
-
 	}
 	/**
      * Performs a linear regression on the data points {@code (y[i], x[i])}.

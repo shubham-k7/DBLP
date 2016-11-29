@@ -90,10 +90,16 @@ public class GUI {
 
 		return bPanel;
 	}
-
+	private int ans = 0;
 	private int getNextEntries(JTable table, int index, String sp1, int val, int y1, int y2) {
 		DefaultTableModel model = (DefaultTableModel) results.getModel();
 		model.setRowCount(0);
+		if(index == 0)
+		{
+			ans = c_query1.ret_searchresult().size();
+			resultLabel.setText("Result Count: "+ans);
+		}
+		
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 		table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
@@ -102,7 +108,7 @@ public class GUI {
 			if (a > c_query1.ret_searchresult().size()) {
 				i = 1;
 				counter = 0;
-				model.setRowCount(0);
+//				model.setRowCount(0);
 				return 1;
 
 			}
@@ -111,6 +117,8 @@ public class GUI {
 			while (Integer.parseInt((cur_publications.ret_year())) > y2) {
 				if (counter > c_query1.ret_searchresult().size()) {
 					i = 1;
+					ans = counter;
+					resultLabel.setText("Result Count: "+ans);
 					counter = 0;
 					return 1;
 
@@ -126,9 +134,7 @@ public class GUI {
 				temp[0] = "";
 				temp[0] += a;
 				model.addRow(temp);
-
 			}
-
 		}
 		return 0;
 	}
@@ -163,12 +169,12 @@ public class GUI {
 				if (cq == 1){
 					next_status = getNextEntries(table, i++, sp1, val, y1, y2);
 					if(next_status==1)
-						next.setVisible(false);
+						next.setEnabled(false);
 				}
 				else if (cq == 2){
 					next_status = getNextEntries2(table, index++, k);
 					if(next_status==1)
-						next.setVisible(false);
+						next.setEnabled(false);
 				}
 					
 			}
@@ -176,6 +182,14 @@ public class GUI {
 		// yolo.setSize(600,800);
 		resultPanel.add(yolo);
 		// ,BorderLayout.CENTER);
+		JLabel countLabel = new JLabel("Result Count: ");
+		countLabel.setPreferredSize(new Dimension(400, 30));
+		countLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 22));
+		countLabel.setVisible(true);
+		JPanel as = new JPanel();
+		as.add(countLabel);
+		resultLabel = countLabel;
+		resultPanel.add(as);
 		resultPanel.add(next);// ,BorderLayout.SOUTH);
 		results = table;
 	}
@@ -224,6 +238,7 @@ public class GUI {
 
 	private int val;
 	private String sp1;
+	private JLabel resultLabel;
 
 	private void query1(JPanel queryPanel) {
 
@@ -346,17 +361,27 @@ public class GUI {
 				// boolean formatCorrect = checkFormats(yearText,c1Text,c2Text);
 				val = searchSelect.getSelectedIndex();
 				sp1 = nameText.getText();
-
-				System.out.println("sp1: " + sp1 + "  val: " + val + " cquery1 " + (c_query1 == null));
-				c_query1.parsing(sp1, val);
-				Sorting_output.sort_by_date(c_query1.ret_searchresult());
+				
+				if(sp1.equals(""))
+				{
+					
+				}
+//				System.out.println("sp1: " + sp1 + "  val: " + val + " cquery1 " + (c_query1 == null));
+//				c_query1.parsing(sp1, val);
+//				Sorting_output.sort_by_date(c_query1.ret_searchresult());
 				if (o1.isSelected()) {
+					System.out.println("sp1: " + sp1 + "  val: " + val + " cquery1 " + (c_query1 == null));
+					c_query1.parsing(sp1, val);
+					Sorting_output.sort_by_date(c_query1.ret_searchresult());
 					counter = 0;
 					y1 = 0;
 					y2 = Integer.MAX_VALUE;
 					getNextEntries(table, 0, sp1, val, y1, y2);
 				}
 				if (o2.isSelected()) {
+					System.out.println("sp1: " + sp1 + "  val: " + val + " cquery1 " + (c_query1 == null));
+					c_query1.parsing(sp1, val);
+					Sorting_output.sort_by_date(c_query1.ret_searchresult());
 					counter = 0;
 					y1 = 0;
 					y2 = Integer.MAX_VALUE;
@@ -364,12 +389,18 @@ public class GUI {
 					getNextEntries(table, 0, sp1, val, y1, y2);
 				}
 				if (o3.isSelected() && checkFormats(yearText)) {
+					System.out.println("sp1: " + sp1 + "  val: " + val + " cquery1 " + (c_query1 == null));
+					c_query1.parsing(sp1, val);
+					Sorting_output.sort_by_date(c_query1.ret_searchresult());
 					counter = 0;
 					y1 = Integer.parseInt(yearText.getText());
 					y2 = Integer.MAX_VALUE;
 					getNextEntries(table, 0, sp1, val, y1, y2);
 
 				} else if (o4.isSelected()) {
+					System.out.println("sp1: " + sp1 + "  val: " + val + " cquery1 " + (c_query1 == null));
+					c_query1.parsing(sp1, val);
+					Sorting_output.sort_by_date(c_query1.ret_searchresult());
 					counter = 0;
 					if (checkFormats(c1Text) && checkFormats(c2Text)) {
 						if ((Integer.parseInt(c1Text.getText()) >= Integer.parseInt(c2Text.getText()))) {
@@ -396,10 +427,10 @@ public class GUI {
 				// model.addRow(new Object[] { a, "fdsafdsa", "fdsafdsa",
 				// "fdsa", "fdsa", "fdsa", "fdsa", "htrhgr" });
 				// }
-				if (true) {
-					// JOptionPane.showMessageDialog(null,"String is correct");
-					// table = new JTable(model);
-				}
+//				if (true) {
+//					// JOptionPane.showMessageDialog(null,"String is correct");
+//					// table = new JTable(model);
+//				}
 			}
 		});
 		JButton b2 = new JButton("Reset");
@@ -440,6 +471,7 @@ public class GUI {
 		boolean flag = true;
 		if (!s1.matches(".*[0-9].*")) {
 			JOptionPane.showMessageDialog(null, "Invalid Entry! Only numbers! Try again");
+//			throw new CustomEx("Invalid Entry! Only numbers! Try again");
 			flag = false;
 		} else if (s1.length() != 4) {
 			JOptionPane.showMessageDialog(null, "Invalid Entry! Exactly 4 Digits please");
@@ -481,8 +513,10 @@ public class GUI {
 		for (int i = 0; i < 20; i++) {
 			temp = Author.ret_person(counter);
 			if (counter >= Author.ret_total_no_of_distinct_authors()) {
+				ans= counter;
+				resultLabel.setText("Result Count: "+ans);
 				counter = 0;
-				model.setRowCount(0);
+//				model.setRowCount(0);
 				return 1;
 			}
 			while (temp.ret_no_of_publications() <= n && counter < Author.ret_total_no_of_distinct_authors()) {

@@ -20,8 +20,10 @@ public class Query2 {
 	SAXParser parser;
 	DefaultHandler handler;
 	private static Query2 UniqueInstance=null;
-	private static Map<String, Integer> name_count=null;
-
+	private static Map<String, Integer> name_count=null; 	/*!< Detailed description after the member */
+	/** An enum type. 
+     *  The documentation block cannot be put after the enum! 
+     */
 	private Query2() {
 		try {
 			parserFactory = SAXParserFactory.newInstance();
@@ -37,7 +39,9 @@ public class Query2 {
 	}
 
 	// TODO Auto-generated constructor stub
-
+	/** An enum type. 
+     *  The documentation block cannot be put after the enum! 
+     */
 	private class CustomHandler extends DefaultHandler {
 
 		boolean author;
@@ -99,7 +103,9 @@ public class Query2 {
 			
 		}
 	}
-
+	/** An enum type. 
+     *  The documentation block cannot be put after the enum! 
+     */
 	public static void execute() {
 		if(UniqueInstance==null||name_count==null)
 		{
@@ -118,6 +124,9 @@ public class Query2 {
 		
 		//dispay_result(n);
 	}
+	/** An enum type. 
+     *  The documentation block cannot be put after the enum! 
+     */
 	private void calcPublicationCount()
 	{
 		try {
