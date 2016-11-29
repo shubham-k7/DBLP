@@ -11,34 +11,41 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-
-
 //java -Xmx2048m -Xms2048m -DentityExpansionLimit=100000000 Query1
 public class Query1 {
 	String authorName;
 
-	SAXParser parser;
-	DefaultHandler handler;
+	SAXParser parser; 	/*!< Detailed description after the member */
+	DefaultHandler handler; /*!< Detailed description after the member */
 	File dblp_file;
 
 	String search_Parameter;
 	int search_Option;
-	ArrayList<Publications> Search_result;
+	ArrayList<Publications> Search_result; /*!< Detailed description after the member */
+
 	public ArrayList<Publications> ret_searchresult() {
 		return Search_result;
 	}
-	Author search_parameter_author;
+
+	Author search_parameter_author; /*!< Detailed description after the member */
 
 	int counter = 0;
 	int search_counter = 0;
-	public Publications ret_Search_result(int i)
-	{
+
+	public Publications ret_Search_result(int i) {
 		return Search_result.get(i);
 	}
+
 	public Query1() {
 
 	}
-
+	/**
+     * Performs a linear regression on the data points {@code (y[i], x[i])}.
+     *
+     * @param  x the values of the predictor variable
+     * @param  y the corresponding values of the response variable
+     * @throws IllegalArgumentException if the lengths of the two arrays are not equal
+     */
 	public void parsing(String search_parameter, int search_option) {
 		Search_result = new ArrayList<Publications>();
 		search_Parameter = search_parameter;
@@ -47,8 +54,7 @@ public class Query1 {
 		counter = 0;
 		if (search_option == 0) {
 			search_parameter_author = Author.find_person_ret_author(search_parameter);
-			
-				
+
 		}
 		try {
 			dblp_file = new File("dblp.xml");
@@ -66,15 +72,22 @@ public class Query1 {
 		}
 	}
 
-	 public static void main(String[] args) {
+	public static void main(String[] args) {
 		new EntityResolver();
-		Query1 qc =new Query1();
-		qc.parsing("Crime Technology",1);
-		Query1.display_according_to_option(3,qc.ret_searchresult());
-		
-		 
-	 }
+//		Query1 qc = new Query1();
+//		qc.parsing("Crime Technology", 1);
+//		Query1.display_according_to_option(3, qc.ret_searchresult());
+		Query2.execute();
+		Query2.dispay_result(500);
 
+	}
+	/**
+     * Performs a linear regression on the data points {@code (y[i], x[i])}.
+     *
+     * @param  x the values of the predictor variable
+     * @param  y the corresponding values of the response variable
+     * @throws IllegalArgumentException if the lengths of the two arrays are not equal
+     */
 	private class CustomHandler extends DefaultHandler {
 		boolean author, title, pages, year, volume, journal, url;
 		boolean ismatched;
@@ -242,12 +255,12 @@ public class Query1 {
 					}
 				} else if (search_Option == 1) {
 					int count_words1 = 0;
-					int count_words2=0;
-					int count_words=0;
+					int count_words2 = 0;
+					int count_words = 0;
 					int count_characters = 0;
 					if (temp_title != null) {
 						boolean ismatching = false;
-						String[]part1=temp_title.split("\\W");
+						String[] part1 = temp_title.split("\\W");
 						String[] part2 = search_Parameter.split("\\W");
 
 						// for(String temp:part2)
@@ -268,17 +281,15 @@ public class Query1 {
 						// }
 						ismatching = false;
 						for (String s1 : part2) {
-							if (s1.length() > 3)
-							{	for(String s2: part1)
-							{
-								if(s1.equalsIgnoreCase(s2))
-								{
-									ismatching = true;
-									count_words1++;
-									break;
+							if (s1.length() > 3) {
+								for (String s2 : part1) {
+									if (s1.equalsIgnoreCase(s2)) {
+										ismatching = true;
+										count_words1++;
+										break;
+									}
 								}
-							}
-								
+
 							}
 							// }else {
 							//
@@ -286,17 +297,15 @@ public class Query1 {
 							// }
 						}
 						for (String s1 : part1) {
-							if (s1.length() > 3)
-							{	for(String s2: part2)
-							{
-								if(s1.equalsIgnoreCase(s2))
-								{
-									ismatching = true;
-									count_words2++;
-									break;
+							if (s1.length() > 3) {
+								for (String s2 : part2) {
+									if (s1.equalsIgnoreCase(s2)) {
+										ismatching = true;
+										count_words2++;
+										break;
+									}
 								}
-							}
-								
+
 							}
 							// }else {
 							//
@@ -304,14 +313,15 @@ public class Query1 {
 							// }
 						}
 
-//						for(String s2: part1)
-//						{
-//							if (s2.length() > 3 && search_Parameter.contains(s2)) {
-//								ismatching = true;
-//							count_words2++;
-//							}	
-//						}
-						count_words=count_words1>count_words2?count_words2:count_words1;
+						// for(String s2: part1)
+						// {
+						// if (s2.length() > 3 && search_Parameter.contains(s2))
+						// {
+						// ismatching = true;
+						// count_words2++;
+						// }
+						// }
+						count_words = count_words1 > count_words2 ? count_words2 : count_words1;
 						// if(temp_title.equals(search_Parameter))
 						// {
 						//
@@ -328,17 +338,15 @@ public class Query1 {
 						// }
 						if (ismatching) {
 							Publications temp;
-							if(temp_authors==null||temp_authors.equals(""))
-							{
-								
-							}
-							else{
+							if (temp_authors == null || temp_authors.equals("")) {
+
+							} else {
 								temp = new Publications(temp_tag, temp_authors, temp_title, temp_pages, temp_year,
 										temp_volume, temp_journal, temp_url, count_words, count_characters);
 								Search_result.add(temp);
 								search_counter++;
 							}
-							
+
 						}
 					}
 				}
@@ -390,5 +398,5 @@ public class Query1 {
 		}
 
 	}
-	
+
 }

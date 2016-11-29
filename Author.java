@@ -21,6 +21,10 @@ public class Author {
 	{
 		person=new ArrayList<Author>();
 	}
+	public static Author ret_person(int k)
+	{
+		return person.get(k);
+	}
 	public static Boolean find_person(String name)
 	{
 		Boolean truth_Value =false;
@@ -127,7 +131,7 @@ public class Author {
 			   
 		   }
 	}
-	public Boolean if_present(String nm)
+	public Boolean if_present(String nm)	
 	{
 		for(String s:aliases)
 		{

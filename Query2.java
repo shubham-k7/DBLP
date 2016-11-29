@@ -100,7 +100,7 @@ public class Query2 {
 		}
 	}
 
-	public static void execute(int n) {
+	public static void execute() {
 		if(UniqueInstance==null||name_count==null)
 		{
 			UniqueInstance=new Query2();
@@ -116,7 +116,7 @@ public class Query2 {
 			UniqueInstance.remove_www_homepage_count();
 		}
 		
-		dispay_result(n);
+		//dispay_result(n);
 	}
 	private void calcPublicationCount()
 	{
@@ -144,3 +144,8 @@ public class Query2 {
 		}
 	}
 }
+ 
+
+
+
+

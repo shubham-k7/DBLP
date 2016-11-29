@@ -18,6 +18,8 @@ public class GUI {
 	private JFrame mainFrame;
 	Query1 c_query1;
 	int counter = 0;
+	int cq = 0;
+	int k = 0;
 
 	GUI() {
 		new EntityResolver();
@@ -89,7 +91,7 @@ public class GUI {
 		return bPanel;
 	}
 
-	private void getNextEntries(JTable table, int index, String sp1, int val, int y1, int y2) {
+	private int getNextEntries(JTable table, int index, String sp1, int val, int y1, int y2) {
 		DefaultTableModel model = (DefaultTableModel) results.getModel();
 		model.setRowCount(0);
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
@@ -100,7 +102,8 @@ public class GUI {
 			if (a > c_query1.ret_searchresult().size()) {
 				i = 1;
 				counter = 0;
-				break;
+				model.setRowCount(0);
+				return 1;
 
 			}
 			Publications cur_publications = c_query1.ret_Search_result(counter);
@@ -109,7 +112,7 @@ public class GUI {
 				if (counter > c_query1.ret_searchresult().size()) {
 					i = 1;
 					counter = 0;
-					break;
+					return 1;
 
 				}
 
@@ -127,12 +130,14 @@ public class GUI {
 			}
 
 		}
+		return 0;
 	}
 
 	private int y1, y2;
-
+	int next_status=0;
+	int index = 1;
 	private void resultPanelSet(JPanel resultPanel) {
-
+		next_status = 0;
 		String[] headings = { "S_No", "Authors", "Title", "Pages", "Year", "Volume", "Journal/Book Title", "URL" };
 		// String[][] data = new String[20][8];
 		DefaultTableModel model = new DefaultTableModel(rowCount, headings.length);
@@ -155,7 +160,17 @@ public class GUI {
 		next.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				getNextEntries(table, i++, sp1, val, y1, y2);
+				if (cq == 1){
+					next_status = getNextEntries(table, i++, sp1, val, y1, y2);
+					if(next_status==1)
+						next.setVisible(false);
+				}
+				else if (cq == 2){
+					next_status = getNextEntries2(table, index++, k);
+					if(next_status==1)
+						next.setVisible(false);
+				}
+					
 			}
 		});
 		// yolo.setSize(600,800);
@@ -174,12 +189,15 @@ public class GUI {
 				String s = (String) queryList.getSelectedItem();
 				switch (s) {
 				case "Query 1":
+					cq = 1;
 					query1(queryPanel);
 					break;
 				case "Query 2":
+					cq = 2;
 					query2(queryPanel);
 					break;
 				case "Query 3":
+					cq = 3;
 					query3(queryPanel);
 					break;
 				case "Queries":
@@ -209,6 +227,7 @@ public class GUI {
 
 	private void query1(JPanel queryPanel) {
 
+		cq = 1;
 		queryPanel.setEnabled(false);
 		queryPanel.setVisible(false);
 		queryPanel.removeAll();
@@ -332,26 +351,26 @@ public class GUI {
 				c_query1.parsing(sp1, val);
 				Sorting_output.sort_by_date(c_query1.ret_searchresult());
 				if (o1.isSelected()) {
-					counter=0;
+					counter = 0;
 					y1 = 0;
 					y2 = Integer.MAX_VALUE;
 					getNextEntries(table, 0, sp1, val, y1, y2);
 				}
 				if (o2.isSelected()) {
-					counter=0;
+					counter = 0;
 					y1 = 0;
 					y2 = Integer.MAX_VALUE;
 					Sorting_output.sort_by_relevance(c_query1.ret_searchresult());
 					getNextEntries(table, 0, sp1, val, y1, y2);
 				}
 				if (o3.isSelected() && checkFormats(yearText)) {
-					counter=0;
+					counter = 0;
 					y1 = Integer.parseInt(yearText.getText());
 					y2 = Integer.MAX_VALUE;
 					getNextEntries(table, 0, sp1, val, y1, y2);
 
 				} else if (o4.isSelected()) {
-					counter=0;
+					counter = 0;
 					if (checkFormats(c1Text) && checkFormats(c2Text)) {
 						if ((Integer.parseInt(c1Text.getText()) >= Integer.parseInt(c2Text.getText()))) {
 							JOptionPane.showMessageDialog(null, "Lower bound should be less than upper bound");
@@ -390,7 +409,7 @@ public class GUI {
 				query1(queryPanel);
 				DefaultTableModel model = (DefaultTableModel) results.getModel();
 				model.setRowCount(0);
-				model.setRowCount(20);
+				// model.setRowCount(20);
 			}
 		});
 		b2.setBackground(Color.MAGENTA);
@@ -451,8 +470,36 @@ public class GUI {
 		}
 	}
 
+	private int getNextEntries2(JTable table, int index, int n) {
+		DefaultTableModel model = (DefaultTableModel) results.getModel();
+		model.setRowCount(0);
+		model.setColumnIdentifiers(new Object[] { "S. No", "Author Name" });
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+		rightRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+		Author temp;
+		for (int i = 0; i < 20; i++) {
+			temp = Author.ret_person(counter);
+			if (counter >= Author.ret_total_no_of_distinct_authors()) {
+				counter = 0;
+				model.setRowCount(0);
+				return 1;
+			}
+			while (temp.ret_no_of_publications() <= n && counter < Author.ret_total_no_of_distinct_authors()) {
+				counter++;
+				temp = Author.ret_person(counter);
+			}
+			if (temp.ret_no_of_publications() > n) {
+				model.addRow(new Object[] { Integer.toString((20 * index + i+1)), temp.ret_name() });
+				counter++;
+			}
+		}
+		return 0;
+	}
+
 	private void query2(JPanel queryPanel) {
 
+		cq = 2;
 		queryPanel.setVisible(false);
 		queryPanel.removeAll();
 		queryPanelSet(queryPanel, 2);
@@ -462,7 +509,7 @@ public class GUI {
 		numPanel.setFont(new Font("Comic Sans MS", Font.BOLD, 22));
 		numPanel.setVisible(true);
 		JTextField numText = new JTextField(4);
-		numText.setEditable(false);
+		numText.setEditable(true);
 		numText.setPreferredSize(new Dimension(200, 30));
 		JPanel lol2 = new JPanel();
 		lol2.add(numPanel);
@@ -479,12 +526,21 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				// System.out.println("Search was pressed!");
 				// checkFormats();
+				int n = Integer.parseInt(numText.getText());
+				// Query2.execute();
+				next_status=0;
+				counter = 0;
+				Query2.execute();
+				k = n;
+				getNextEntries2(table, 0, n);
 			}
 		});
 		b2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				query2(queryPanel);
+				DefaultTableModel model = (DefaultTableModel) results.getModel();
+				model.setRowCount(0);
 			}
 		});
 		b2.setBackground(Color.MAGENTA);
