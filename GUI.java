@@ -2,15 +2,13 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableModel;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
+
 import javax.swing.text.PlainDocument;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.text.PlainDocument;
+
 /**
  *	This code is made by Shubham Khanna and Dhruva Sahrawat as a part of Advanced Programming Course. Monsoon '16
  */
@@ -24,7 +22,7 @@ public class GUI
 			mainFrame.setLocationRelativeTo(null);
 			mainFrame.setTitle("DBLP Query Engine");
 			mainFrame.setLayout(new BorderLayout());
-			mainFrame.setDefaultCloseOperation(mainFrame.EXIT_ON_CLOSE);
+			mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 			mainFrame.add(headingPanel(),BorderLayout.NORTH);
 			mainFrame.add(bodyPanel());
@@ -92,8 +90,8 @@ public class GUI
 	{
 
 		String[] headings = {"S_No","Authors","Title","Pages","Year","Volume","Journal/Book Title","URL"};
-		String[][] data = new String[20][8];
-		DefaultTableModel model = new DefaultTableModel(20,headings.length);
+//		String[][] data = new String[20][8];
+		DefaultTableModel model = new DefaultTableModel(rowCount,headings.length);
 		model.setColumnIdentifiers(headings);
 		table = new JTable(model);
 		table.setVisible(true);
@@ -124,7 +122,7 @@ public class GUI
 	private void queryPanelSet(JPanel queryPanel)
 		{
 			String list[] = {"Query 1","Query 2","Query 3"};
-			JComboBox queryList = new JComboBox(list);
+			JComboBox<String> queryList = new JComboBox<String>(list);
 			ActionListener cb = new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -167,7 +165,7 @@ public class GUI
 //        queryPanel.getComponent(0)
 
 		String list[] = {"Name","Title"};
-		JComboBox searchSelect = new JComboBox(list);
+		JComboBox<String> searchSelect = new JComboBox<String>(list);
 
 		searchSelect.setPreferredSize(new Dimension(150,40));
 		searchSelect.setFont(new Font("Comic Sans MS", Font.BOLD,20));
@@ -339,6 +337,10 @@ public class GUI
 	}
 
 	public class JTextFieldLimit extends PlainDocument {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		private int limit;
 
 		JTextFieldLimit(int limit) {
