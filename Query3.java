@@ -1,15 +1,12 @@
 import java.util.ArrayList;
 import java.util.Map;
 
-/** Class for predicting
- * 
- */
+
 public class Query3 {
 	String[] s1;
 	Map<Integer, Integer>[] data;
     public void initialize(String[] s) {
-
-
+    
 		
 	}
 }

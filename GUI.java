@@ -108,6 +108,7 @@ public class GUI {
 			if (a > c_query1.ret_searchresult().size()) {
 				i = 1;
 				counter = 0;
+				globNext.setEnabled(false);
 //				model.setRowCount(0);
 				return 1;
 
@@ -119,6 +120,7 @@ public class GUI {
 					i = 1;
 					ans = counter;
 					resultLabel.setText("Result Count: "+ans);
+					globNext.setEnabled(false);
 					counter = 0;
 					return 1;
 
@@ -141,6 +143,7 @@ public class GUI {
 
 	private int y1, y2;
 	int next_status=0;
+	private JButton globNext;
 	int index = 1;
 	private void resultPanelSet(JPanel resultPanel) {
 		next_status = 0;
@@ -162,6 +165,7 @@ public class GUI {
 		next.setPreferredSize(new Dimension(100, 30));
 		next.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
 		next.setVisible(true);
+		globNext = next;
 
 		next.addActionListener(new ActionListener() {
 			@Override
@@ -169,12 +173,16 @@ public class GUI {
 				if (cq == 1){
 					next_status = getNextEntries(table, i++, sp1, val, y1, y2);
 					if(next_status==1)
+					{
 						next.setEnabled(false);
+					}
 				}
 				else if (cq == 2){
 					next_status = getNextEntries2(table, index++, k);
 					if(next_status==1)
+					{
 						next.setEnabled(false);
+					}
 				}
 					
 			}
@@ -440,7 +448,11 @@ public class GUI {
 				query1(queryPanel);
 				DefaultTableModel model = (DefaultTableModel) results.getModel();
 				model.setRowCount(0);
+				next_status=0;
 				// model.setRowCount(20);
+				resultLabel.setText("Result Count: ");
+				globNext.setEnabled(true);
+				
 			}
 		});
 		b2.setBackground(Color.MAGENTA);
@@ -511,22 +523,49 @@ public class GUI {
 		table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
 		Author temp;
 		for (int i = 0; i < 20; i++) {
-			temp = Author.ret_person(counter);
 			if (counter >= Author.ret_total_no_of_distinct_authors()) {
-				ans= counter;
 				resultLabel.setText("Result Count: "+ans);
+				globNext.setEnabled(false);
 				counter = 0;
+				System.out.println("inside 2, ans = : "+ans);
 //				model.setRowCount(0);
 				return 1;
 			}
+			temp = Author.ret_person(counter);
 			while (temp.ret_no_of_publications() <= n && counter < Author.ret_total_no_of_distinct_authors()) {
-				counter++;
+
 				temp = Author.ret_person(counter);
+				counter++;			
+			}
+			if(counter >= Author.ret_total_no_of_distinct_authors())
+			{
+//				ans= counter;
+				resultLabel.setText("Result Count: "+ans);
+				globNext.setEnabled(false);
+				counter = 0;
+//				model.setRowCount(0);
+				System.out.println("inside 3, ans = : "+ans);
+				return 1;
 			}
 			if (temp.ret_no_of_publications() > n) {
 				model.addRow(new Object[] { Integer.toString((20 * index + i+1)), temp.ret_name() });
 				counter++;
+				ans = 20 * index + i+1;
+				if(counter >= Author.ret_total_no_of_distinct_authors())
+				{
+					resultLabel.setText("Result Count: "+ans);
+				}
 			}
+		}
+		if(counter >= Author.ret_total_no_of_distinct_authors())
+		{
+//			ans= counter;
+			resultLabel.setText("Result Count: "+ans);
+			globNext.setEnabled(false);
+			counter = 0;
+			System.out.println("inside 1, ans = : "+ans);
+//			model.setRowCount(0);
+			return 1;
 		}
 		return 0;
 	}
@@ -567,6 +606,10 @@ public class GUI {
 				Query2.execute();
 				k = n;
 				getNextEntries2(table, 0, n);
+				if(next_status ==1)
+				{
+					globNext.setEnabled(false);
+				}
 			}
 		});
 		b2.addActionListener(new ActionListener() {
@@ -575,6 +618,9 @@ public class GUI {
 				query2(queryPanel);
 				DefaultTableModel model = (DefaultTableModel) results.getModel();
 				model.setRowCount(0);
+//				resultPanelSet(resultPanel);
+				globNext.setEnabled(true);
+				resultLabel.setText("Result Count: ");
 			}
 		});
 		b2.setBackground(Color.MAGENTA);
