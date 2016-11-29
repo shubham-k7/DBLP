@@ -116,13 +116,7 @@ public class Query2 {
 			UniqueInstance.remove_www_homepage_count();
 		}
 		
-		
-		for(Author a : Author.ret_persons()) {
-			int cur_author_publications=a.ret_no_of_publications();
-			if(cur_author_publications>n)
-			System.out.println("Author Name: "+a.ret_name()+ "     No of Publications: "+cur_author_publications);
-		}
-
+		dispay_result(n);
 	}
 	private void calcPublicationCount()
 	{
@@ -139,6 +133,14 @@ public class Query2 {
 		} catch (SAXException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	public static void dispay_result(int n)
+	{
+		for(Author a : Author.ret_persons()) {
+			int cur_author_publications=a.ret_no_of_publications();
+			if(cur_author_publications>n)
+			System.out.println("Author Name: "+a.ret_name()+ "     No of Publications: "+cur_author_publications);
 		}
 	}
 }
