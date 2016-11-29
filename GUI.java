@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
@@ -249,13 +250,17 @@ public class GUI
 			@Override
 			public void actionPerformed(ActionEvent e) {
 //				System.out.println("Search was pressed!");
-				boolean formatCorrect = checkFormats(yearText,c1Text,c2Text);
-				if(formatCorrect)
+//				boolean formatCorrect = checkFormats(yearText,c1Text,c2Text);
+				DefaultTableModel model = (DefaultTableModel) results.getModel();
+				model.setRowCount	(0);
+				DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+				rightRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+				table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+				model.addRow(new Object[]{"1", "fdsafdsa", "fdsafdsa", "fdsa","fdsa","fdsa","fdsa","htrhgr"});
+				if(true)
 				{
-					JOptionPane.showMessageDialog(null,"String is correct");
-					DefaultTableModel model = (DefaultTableModel) results.getModel();
-					model.addRow(new Object[]{"Yolo", "fdsafdsa", "fdsafdsa", "fdsa","fdsa","fdsa","fdsa","htrhgr"});
-					table = new JTable(model);
+//					JOptionPane.showMessageDialog(null,"String is correct");
+//					table = new JTable(model);
 				}
 			}
 		});
