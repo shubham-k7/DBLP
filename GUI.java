@@ -11,7 +11,9 @@ import javax.swing.text.PlainDocument;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.text.PlainDocument;
-
+/**
+ *	This code is made by Shubham Khanna and Dhruva Sahrawat as a part of Advanced Programming Course. Monsoon '16
+ */
 public class GUI
 {
 		private JFrame mainFrame;
@@ -50,7 +52,9 @@ public class GUI
 		}
 	private JTable table;
 
-
+	/**
+	 *	This
+	 */
 	DefaultTableModel model;
 	private int rowCount= 20;
 	private JPanel bodyPanel()
@@ -244,7 +248,7 @@ public class GUI
 		queryPanel.add(butPanel);
 
 		JPanel butPanel2 = new JPanel();
-        butPanel2.setLayout(new FlowLayout(FlowLayout.CENTER,20,20));
+		butPanel2.setLayout(new FlowLayout(FlowLayout.CENTER,20,20));
 		JButton b1 = new JButton("Search");
 		b1.addActionListener(new ActionListener() {
 			@Override
@@ -296,7 +300,7 @@ public class GUI
 		String s3 = c.getText();
 //		System.out.println("s1: "+s1);
 //		System.out.println("s2: "+s2);
-//		System.out.println("s3: "+s3);
+//		System.out.println("s3: "+s3);2
 		boolean flag = true;
 		if(s1.matches(".*[A-Za-z].*") || s1.length()!=4)
 		{
@@ -370,8 +374,8 @@ public class GUI
 		queryPanel.add(lol2);
 
 		JPanel butPanel2 = new JPanel();
-        butPanel2.setLayout(new FlowLayout(FlowLayout.CENTER,20,20));
-        JButton b1 = new JButton("Search");
+		butPanel2.setLayout(new FlowLayout(FlowLayout.CENTER,20,20));
+		JButton b1 = new JButton("Search");
 		JButton b2 = new JButton("Reset");
 		b1.addActionListener(new ActionListener() {
 			@Override
@@ -400,7 +404,7 @@ public class GUI
 
 		queryPanel.revalidate();
 		queryPanel.setVisible(true);
-        queryPanel.setEnabled(true);
+		queryPanel.setEnabled(true);
 	}
 
 	private void query3(JPanel queryPanel) {
