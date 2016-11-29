@@ -51,6 +51,7 @@ public class Author {
 		return null;
 		
 	}
+	//redundant operations for testing only: start
 	public static int ret_total_no_of_distinct_authors()
 	{
 		if(person!=null)
@@ -79,6 +80,7 @@ public class Author {
 			}
 		}
 	}
+	//end
 	private ArrayList<String> aliases;
 	private int no_of_publications;
 	private String key;

@@ -11,6 +11,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+
+
 //java -Xmx2048m -Xms2048m -DentityExpansionLimit=100000000 Query1
 public class Query1 {
 	String authorName;
@@ -22,11 +24,17 @@ public class Query1 {
 	String search_Parameter;
 	int search_Option;
 	ArrayList<Publications> Search_result;
+	public ArrayList<Publications> ret_searchresult() {
+		return Search_result;
+	}
 	Author search_parameter_author;
 
 	int counter = 0;
 	int search_counter = 0;
-
+	public Publications ret_Search_result(int i)
+	{
+		return Search_result.get(i);
+	}
 	public Query1() {
 
 	}
@@ -39,6 +47,8 @@ public class Query1 {
 		counter = 0;
 		if (search_option == 0) {
 			search_parameter_author = Author.find_person_ret_author(search_parameter);
+			
+				
 		}
 		try {
 			dblp_file = new File("dblp.xml");
@@ -56,9 +66,14 @@ public class Query1 {
 		}
 	}
 
-	// public static void main(String[] args) {
-	//
-	// }
+	 public static void main(String[] args) {
+		new EntityResolver();
+		Query1 qc =new Query1();
+		qc.parsing("Crime Technology",1);
+		Query1.display_according_to_option(3,qc.ret_searchresult());
+		
+		 
+	 }
 
 	private class CustomHandler extends DefaultHandler {
 		boolean author, title, pages, year, volume, journal, url;
@@ -226,11 +241,13 @@ public class Query1 {
 
 					}
 				} else if (search_Option == 1) {
-					int count_words = 0;
+					int count_words1 = 0;
+					int count_words2=0;
+					int count_words=0;
 					int count_characters = 0;
 					if (temp_title != null) {
 						boolean ismatching = false;
-						// String[]part1=temp_title.split("\\W");
+						String[]part1=temp_title.split("\\W");
 						String[] part2 = search_Parameter.split("\\W");
 
 						// for(String temp:part2)
@@ -251,16 +268,50 @@ public class Query1 {
 						// }
 						ismatching = false;
 						for (String s1 : part2) {
-							if (s1.length()>3&&temp_title.contains(s1)) {
-								ismatching = true;
-								count_words++;
+							if (s1.length() > 3)
+							{	for(String s2: part1)
+							{
+								if(s1.equalsIgnoreCase(s2))
+								{
+									ismatching = true;
+									count_words1++;
+									break;
+								}
 							}
-//							}else {
-//								
-//								break;
-//							}
+								
+							}
+							// }else {
+							//
+							// break;
+							// }
+						}
+						for (String s1 : part1) {
+							if (s1.length() > 3)
+							{	for(String s2: part2)
+							{
+								if(s1.equalsIgnoreCase(s2))
+								{
+									ismatching = true;
+									count_words2++;
+									break;
+								}
+							}
+								
+							}
+							// }else {
+							//
+							// break;
+							// }
 						}
 
+//						for(String s2: part1)
+//						{
+//							if (s2.length() > 3 && search_Parameter.contains(s2)) {
+//								ismatching = true;
+//							count_words2++;
+//							}	
+//						}
+						count_words=count_words1>count_words2?count_words2:count_words1;
 						// if(temp_title.equals(search_Parameter))
 						// {
 						//
@@ -277,10 +328,17 @@ public class Query1 {
 						// }
 						if (ismatching) {
 							Publications temp;
-							temp = new Publications(temp_tag, temp_authors, temp_title, temp_pages, temp_year,
-									temp_volume, temp_journal, temp_url, count_words, count_characters);
-							Search_result.add(temp);
-							search_counter++;
+							if(temp_authors==null||temp_authors.equals(""))
+							{
+								
+							}
+							else{
+								temp = new Publications(temp_tag, temp_authors, temp_title, temp_pages, temp_year,
+										temp_volume, temp_journal, temp_url, count_words, count_characters);
+								Search_result.add(temp);
+								search_counter++;
+							}
+							
 						}
 					}
 				}
@@ -332,4 +390,5 @@ public class Query1 {
 		}
 
 	}
+	
 }
