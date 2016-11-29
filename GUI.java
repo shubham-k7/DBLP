@@ -1,11 +1,19 @@
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.PlainDocument;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.text.PlainDocument;
+
 public class GUI
 {
 		private JFrame mainFrame;
-		GUI()
+	GUI()
 		{
 			mainFrame = new JFrame();
 			mainFrame.setSize(1600,900);
@@ -18,6 +26,8 @@ public class GUI
 			mainFrame.add(bodyPanel());
 			mainFrame.setVisible(true);
 		}
+	private JTable results;
+	private int i = 0;
 	private JRadioButton newJRadioButton(String s)
 	{
 		JRadioButton b = new JRadioButton(s);
@@ -36,7 +46,11 @@ public class GUI
 			hPanel.add(heading);
 			return hPanel;
 		}
+	private JTable table;
 
+
+
+	private int rowCount= 20;
 	private JPanel bodyPanel()
 	{
 		JPanel bPanel = new JPanel();
@@ -48,20 +62,60 @@ public class GUI
 		resultPanel.setBorder(BorderFactory.createTitledBorder("Results"));
 		queryPanel.setBorder(BorderFactory.createTitledBorder("Query Select"));
 
+
 		queryPanel.setPreferredSize(new Dimension(480,700));
 		resultPanel.setPreferredSize(new Dimension(1100,700));
 
 
 		queryPanel.setLayout(new GridLayout(10,1));
 		queryPanelSet(queryPanel);
+//		resultPanel.setLayout(new GridLayout(,1));
+		resultPanelSet(resultPanel);
 
 		bPanel.add(queryPanel,BorderLayout.WEST);
 		bPanel.add(resultPanel  ,BorderLayout.EAST);
 
 		return bPanel;
 	}
+	private String[][] getNextEntries(JTable table, int index)
+	{
+		return null;
+	}
+	private void resultPanelSet(JPanel resultPanel)
+	{
 
-		private void queryPanelSet(JPanel queryPanel)
+		String[] headings = {"S_No","Authors","Title","Pages","Year","Volume","Journal/Book Title","URL"};
+		String[][] data = new String[20][8];
+		DefaultTableModel model = new DefaultTableModel(20,headings.length);
+		model.setColumnIdentifiers(headings);
+		table = new JTable(model);
+		table.setVisible(true);
+		table.setPreferredSize(new Dimension(1000,600));
+		table.setPreferredScrollableViewportSize(table.getPreferredSize());
+		table.setFillsViewportHeight(true);
+		JScrollPane sp = new JScrollPane(table);
+		sp.setSize(new Dimension(900,900));
+		JPanel yolo = new JPanel();
+		yolo.add(sp);
+		JButton next = new JButton("Next");
+		next.setPreferredSize(new Dimension(100,30));
+		next.setFont(new Font("Comic Sans MS",Font.BOLD,15));
+		next.setVisible(true);
+
+		next.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				getNextEntries(table,i);
+			}
+		});
+//		yolo.setSize(600,800);
+		resultPanel.add(yolo);
+		//,BorderLayout.CENTER);
+		resultPanel.add(next);//,BorderLayout.SOUTH);
+		results = table;
+	}
+
+	private void queryPanelSet(JPanel queryPanel)
 		{
 			String list[] = {"Query 1","Query 2","Query 3"};
 			JComboBox queryList = new JComboBox(list);
@@ -138,6 +192,9 @@ public class GUI
 		yearLabel.setFont(new Font("Comic Sans MS", Font.BOLD,22));
 		yearLabel.setVisible(true);
 		JTextField yearText= new JTextField("YYYY",4);
+		yearText.setDocument(new JTextFieldLimit(4));
+		yearText.setText("YYYY");
+
 		yearText.setPreferredSize(new Dimension(200,30));
 		JPanel lol3 = new JPanel();
 		lol3.add(yearLabel);
@@ -150,9 +207,13 @@ public class GUI
 		customLabel.setFont(new Font("Comic Sans MS", Font.BOLD,22));
 		customLabel.setVisible(true);
 		JTextField c1Text= new JTextField("YYYY",4);
+		c1Text.setDocument(new JTextFieldLimit(4));
+		c1Text.setText("YYYY");
 		c1Text.setPreferredSize(new Dimension(200,30));
 		JTextField c2Text = new JTextField("YYYY",4);
 		c2Text.setPreferredSize(new Dimension(200,30));
+		c2Text.setDocument(new JTextFieldLimit(4));
+		c2Text.setText("YYYY");
 		JLabel dashLabel = new JLabel("-");
 		dashLabel.setPreferredSize(new Dimension(20,30));
 		dashLabel.setFont(new Font("Comic Sans MS", Font.BOLD,22));
@@ -186,7 +247,12 @@ public class GUI
 		b1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Search was pressed!");
+//				System.out.println("Search was pressed!");
+				boolean formatCorrect = checkFormats(yearText,c1Text,c2Text);
+				if(formatCorrect)
+				{
+					JOptionPane.showMessageDialog(null,"String is correct");
+				}
 			}
 		});
 		JButton b2 = new JButton("Reset");
@@ -211,6 +277,69 @@ public class GUI
 		queryPanel.revalidate();
 		queryPanel.setVisible(true);
 		queryPanel.setEnabled(true);
+
+
+	}
+	private boolean checkFormats(JTextField a,JTextField b,JTextField c)
+	{
+		String s1 = a.getText();
+		String s2 = b.getText();
+		String s3 = c.getText();
+//		System.out.println("s1: "+s1);
+//		System.out.println("s2: "+s2);
+//		System.out.println("s3: "+s3);
+		boolean flag = true;
+		if(s1.matches(".*[A-Za-z].*") || s1.length()!=4)
+		{
+			JOptionPane.showMessageDialog(null,"Invalid Entry! Only numbers! Try again");
+
+			flag=false;
+		}
+		else if (s2.matches(".*[A-Za-z].*") || s2.length()!=4)
+		{
+			JOptionPane.showMessageDialog(null,"Invalid Entry! Only numbers! Try again");
+//			JOptionPane.showMessageDialog(null,"Invalid Year Range! Try Again");
+			flag=false;
+		}
+		else if(s3.matches(".*[A-Za-z].*") || s3.length()!=4)
+		{
+			JOptionPane.showMessageDialog(null,"Invalid Entry! Only numbers! Try again");
+//			JOptionPane.showMessageDialog(null,"Invalid Year Range! Try Again");
+			flag=false;
+		}
+		else if(s1.length()!=4)
+		{
+			JOptionPane.showMessageDialog(null,"Invalid Entry! Exactly 4 Digits please");
+			flag=false;
+		}
+		else if(s2.length()!=4)
+		{
+			JOptionPane.showMessageDialog(null,"Invalid Entry! Exactly 4 Digits please");
+			flag=false;
+		}
+		else if(s3.length()!=4)
+		{
+			JOptionPane.showMessageDialog(null,"Invalid Entry! Exactly 4 Digits please");
+			flag=false;
+		}
+		return flag;
+	}
+
+	public class JTextFieldLimit extends PlainDocument {
+		private int limit;
+
+		JTextFieldLimit(int limit) {
+			super();
+			this.limit = limit;
+		}
+
+		public void insertString( int offset, String  str, AttributeSet attr ) throws BadLocationException {
+			if (str == null) return;
+
+			if ((getLength() + str.length()) <= limit) {
+				super.insertString(offset, str, attr);
+			}
+		}
 	}
 	private void query2(JPanel queryPanel) {
 
@@ -223,6 +352,7 @@ public class GUI
 		numPanel.setFont(new Font("Comic Sans MS", Font.BOLD,22));
 		numPanel.setVisible(true);
 		JTextField numText = new JTextField(4);
+		numText.setEditable(false);
 		numText.setPreferredSize(new Dimension(200,30));
 		JPanel lol2 = new JPanel();
 		lol2.add(numPanel);
@@ -237,7 +367,8 @@ public class GUI
 		b1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Search was pressed!");
+//				System.out.println("Search was pressed!");
+//				checkFormats();
 			}
 		});
 		b2.addActionListener(new ActionListener() {
