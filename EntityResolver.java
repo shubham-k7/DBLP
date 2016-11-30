@@ -8,12 +8,19 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
+//!  Entity Resolver
+/*!
+Used for Resolving different aliases for Author with 2 different name but same author
+*/
 public class EntityResolver {
 
 	private SAXParser parser;
 	private DefaultHandler handler;
 	private File dblp_file;
+	//!  Default Constructor
+/*!
+EntityResolver parsing
+*/
 	public EntityResolver() {
 
 		try {
@@ -32,7 +39,7 @@ public class EntityResolver {
 			e.printStackTrace();
 		}
 	}
-	
+	//custom handler for parsing
 	private class EntityHandler extends DefaultHandler {
 
 		boolean author;
