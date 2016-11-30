@@ -17,9 +17,9 @@ import java.awt.event.*;
 public class GUI {
 	private JFrame mainFrame;
 	Query1 c_query1;
-	int counter = 0;
-	int cq = 0;
-	int k = 0;
+	private int counter = 0;
+	private int cq = 0;
+	private int k = 0;
 
 	GUI() {
 		new EntityResolver();

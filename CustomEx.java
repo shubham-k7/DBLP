@@ -1,7 +1,4 @@
-//!  Custom Exception Class
-/*!
-Used for throwing anad catching custom exception
-*/
+
 public class CustomEx extends Exception {
 	String str1;
 
