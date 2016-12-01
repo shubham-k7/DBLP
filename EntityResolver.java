@@ -18,9 +18,9 @@ public class EntityResolver {
 	private DefaultHandler handler;
 	private File dblp_file;
 	//!  Default Constructor
-/*!
-EntityResolver parsing
-*/
+	/*!
+	EntityResolver parsing
+	*/
 	public EntityResolver() {
 
 		try {
@@ -39,7 +39,9 @@ EntityResolver parsing
 			e.printStackTrace();
 		}
 	}
-	//custom handler for parsing
+	//! custom handler for parsing
+	/*! 	*/
+	
 	private class EntityHandler extends DefaultHandler {
 
 		boolean author;
@@ -54,7 +56,7 @@ EntityResolver parsing
 			tempauthor = null;
 
 		}
-
+//parsing functions
 		@Override
 		public void startElement(String namespaceURI, String localName, String rawName, Attributes atts)
 				throws SAXException {
@@ -79,7 +81,7 @@ EntityResolver parsing
 				}
 			}
 		}
-
+		//parsing functions
 		@Override
 		public void characters(char ch[], int start, int length) throws SAXException {
 			String tempdata = "";
@@ -91,7 +93,7 @@ EntityResolver parsing
 			}
 
 		}
-
+		//parsing functions
 		@Override
 		public void endElement(String uri, String localName, String qName) throws SAXException {
 

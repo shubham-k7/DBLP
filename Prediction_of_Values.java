@@ -1,4 +1,3 @@
-
 public class Prediction_of_Values {
 	/** correlation Calculated
 	 *  @param x

@@ -1,22 +1,28 @@
-import com.sun.org.apache.xpath.internal.operations.String;
-
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /** Class for predicting
  *
  */
 public class Query3 {
 	String[] s1;
-	Map<String, Map<String,Integer>> data;
+	Map<String, HashMap<String, Integer>> data;
 	int[] result={0,0,0,0,0};
 	String[] last_year;
 	int size=5;
     public void initialize(String[] s,String[] a) {
 		s1 = s;
 		last_year=a;
-		for(string stemp:s)
+		for(String stemp:s)
 		{
 			data.put(stemp,new HashMap<String,Integer>());
 		}
@@ -28,7 +34,7 @@ public class Query3 {
 		s1=null;
 
 	}
-	void public parse()
+ public void parse()
 	{
 		try {
 			SAXParserFactory parserFactory = SAXParserFactory.newInstance();
@@ -39,6 +45,9 @@ public class Query3 {
 		catch (SAXException e) {
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -53,7 +62,6 @@ public class Query3 {
 		private ArrayList<String> temp_authors;
 		private String temp_year;
 		public CustomHandler() {
-
 			author = false;
 			 year = false;
 			tempdata = null;
@@ -81,7 +89,6 @@ public class Query3 {
 						&& rawName.equalsIgnoreCase("www")) {
 					String[] parts = temp_tag.split("/");
 					if ((parts[0]).equals("homepages")) {
-						counter += 1;
 						ignore = true;
 					}
 
@@ -104,7 +111,7 @@ public class Query3 {
 			}
 			else if (year) {
 				tempdata += new String(ch, start, length);
-
+			}
 
 		}
 
@@ -124,13 +131,13 @@ public class Query3 {
 						|| qName.equalsIgnoreCase("incollection") || qName.equalsIgnoreCase("phdthesis")
 						|| qName.equalsIgnoreCase("mastersthesis") || qName.equalsIgnoreCase("www")) {
 					if (temp_authors != null) {
-						for(string temp1:temp_authors)
+						for(String temp1:temp_authors)
 						{
-							for(string temp2:s1)
+							for(String temp2:s1)
 							{
 								if(Author.find_person_ret_author(temp2).if_present(temp1))
 								{
-									data.put(temp2,data.(temp2))
+									data.put(temp2,data.get(temp2));
 									if(data.get(temp2).keySet()==null||!(data.get(temp2).keySet().contains(temp_year)))
 									data.get(temp2).put(temp_year,1);
 									else
@@ -140,7 +147,7 @@ public class Query3 {
 						}
 					}
 				}
-				}
+				
 		}
 
 	}
@@ -148,8 +155,10 @@ public class Query3 {
 	{
  		//	Prediction_of_Values(0);
 	}
+	@SuppressWarnings("unused")
 	private int[] ret_array(String tstr)
 	{
+		return null;
       //  ArrayList<Integer>
 
 	}

@@ -37,7 +37,7 @@ public class Author {
 	}
 	  //! A static member for referencing kth position of ArrayList
     /*!
-      \param k an integer argument.
+      \@param k an integer argument.
      
       \return The author reference at k th position of arraylist
     
