@@ -164,7 +164,7 @@ public class Query1 {
 						String[] part2 = search_Parameter.split("\\W");
 						ismatching = false;
 						for (String s1 : part2) {
-							if (s1.length() > 3) {
+							if (s1.length() >= 3) {
 								for (String s2 : part1) {
 									if (s1.equalsIgnoreCase(s2)) {
 										ismatching = true;
@@ -175,7 +175,7 @@ public class Query1 {
 							}
 						}
 						for (String s1 : part1) {
-							if (s1.length() > 3) {
+							if (s1.length() >= 3) {
 								for (String s2 : part2) {
 									if (s1.equalsIgnoreCase(s2)) {
 										ismatching = true;
