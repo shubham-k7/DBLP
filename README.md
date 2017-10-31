@@ -1,6 +1,6 @@
 # DBLP
 
-This is a Course project for Advanced Programming Course for IIIT-Delhi Sem - 3.
+This is a course project for Advanced Programming Course for 3rd Semester at IIIT Delhi.
 
 Owners:
 	Shubham Khanna	2015179
